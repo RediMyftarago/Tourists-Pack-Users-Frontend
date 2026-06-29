@@ -1,7 +1,14 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import PackCard from "../components/PackCard";
 import { ActivationStep } from "@/components/ActivationStep";
+import LoginModal from "@/components/LoginMod";
+import DiscountRoulette from "@/components/DiscountRoulette";
+import HeroExperience from "@/components/HeroExperience";
+import PackRevealCard from "@/components/PackRevealCard";
+import TouristPromoBanner from "@/components/TouristPromoBanner";
+import { getActiveOffers } from "@/lib/offers/api";
+
+export const dynamic = "force-dynamic";
 
 const activationSteps = [
   {
@@ -21,45 +28,25 @@ const activationSteps = [
   },
 ];
 
-const packs = [
-  {
-    title: "Basic Pack",
-    subtitle: "Perfect for short visits",
-    price: "500 L",
-    duration: "3 days",
-    features: ["2GB Data", "50 Minutes", "100 SMS"],
-  },
-  {
-    title: "Standard Pack",
-    subtitle: "Great for week-long stays",
-    price: "1000 L",
-    duration: "7 days",
-    features: ["5GB Data", "100 Minutes", "Unlimited SMS"],
-  },
-];
+export default async function HomePage() {
+  const offers = await getActiveOffers();
 
-export default function HomePage() {
   return (
+    <>
+    <LoginModal/>
+    <DiscountRoulette />
     <div className="page">
       <Header />
-
       <main className="main">
-        {/* Hero Section */}
-        <section className="hero">
-          <h1 className="hero-title">Welcome to Vodafone Albania</h1>
-          <p className="hero-text">
-            Stay connected during your visit to Albania with our special tourist
-            packages. Choose the perfect plan for your needs.
-          </p>
-        </section>
+        <HeroExperience />
 
         {/* Packs Section */}
-        <section>
+        <section id="tourist-packs">
           <h2 className="section-title">Tourist Packs</h2>
           <div className="pack-grid">
-            {packs.map((pack, index) => (
-              <PackCard
-                key={index}
+            {offers.map((pack) => (
+              <PackRevealCard
+                key={pack.id}
                 title={pack.title}
                 subtitle={pack.subtitle}
                 price={pack.price}
@@ -68,10 +55,15 @@ export default function HomePage() {
               />
             ))}
           </div>
+          {offers.length === 0 && (
+            <div className="offers-empty-state">
+              <strong>No active tourist offers found</strong>
+            </div>
+          )}
         </section>
 
         {/* How to Activate Section */}
-        <h2 className="section-title">How to Activate</h2>
+        <h2 className="section-title" id="how-to-activate">How to Activate</h2>
         <div className="steps">
           {activationSteps.map((step, index) => (
             <ActivationStep
@@ -82,9 +74,12 @@ export default function HomePage() {
             />
           ))}
         </div>
+
+        <TouristPromoBanner />
       </main>
 
       <Footer />
     </div>
+    </>
   );
 }

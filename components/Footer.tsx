@@ -21,10 +21,10 @@ const footerLinks = {
   ],
 };
 const socialLinks = [
-  { href: "#", label: "Facebook", icon: "📘" },
-  { href: "#", label: "Instagram", icon: "📷" },
-  { href: "#", label: "Twitter", icon: "🐦" },
-  { href: "#", label: "YouTube", icon: "📺" },
+  { href: "#", label: "Facebook", icon: "" },
+  { href: "#", label: "Instagram", icon: "" },
+  { href: "#", label: "Twitter", icon: "" },
+  { href: "#", label: "YouTube", icon: "" },
 ];
 const FooterSection = ({
   title,
@@ -33,7 +33,7 @@ const FooterSection = ({
   title: string;
   links: { href: string; label: string }[];
 }) => (
-  <div className="footer-section">
+  <div className="footer-section bg-white dark:bg-black text-black dark:text-white">
     <h4>{title}</h4>
     <ul>
       {links.map((link, index) => (
